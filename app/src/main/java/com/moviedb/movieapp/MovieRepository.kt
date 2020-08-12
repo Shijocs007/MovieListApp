@@ -18,7 +18,7 @@ constructor(
         return apiRequest { api.getMovies(1) }
     }
 
-    suspend fun getMoviesFromDb(searchKey : String) = db.movieDao().getMovies(searchKey)
+    suspend fun getMoviesFromDb() = db.movieDao().getMovies()
 
     suspend fun saveMoviesToDB(movies: List<Movie>) = db.movieDao().upsertAll(movies)
 }

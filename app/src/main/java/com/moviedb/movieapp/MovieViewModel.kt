@@ -3,6 +3,7 @@ package com.moviedb.movieapp
 import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -25,19 +26,29 @@ constructor(
         Coroutines.main {
             try {
                 val result = repository.getMoviesFromCloud()
-                result.movies.let {
-                    moviesList.value = it
-                    repository.saveMoviesToDB(it)
+                if(result.movies.isNullOrEmpty()) {
+                    errorLivedata.value = "No items to "
+                } else{
+                    moviesList.value = result.movies
+                    repository.saveMoviesToDB(result.movies)
                 }
             } catch ( e : ApiException) {
                 errorLivedata.value = e.message
             } catch (e : NoInternetException) {
-                val result = repository.getMoviesFromDb("")
+                val result = repository.getMoviesFromDb()
                 result.let {
                     moviesList.value = it
                 }
                 errorLivedata.value = e.message
             }
         }
+    }
+
+    fun getMoviesLivedata() : LiveData<List<Movie>> {
+        return moviesList;
+    }
+
+    fun getErrorLivedata() : LiveData<String> {
+        return errorLivedata
     }
 }
