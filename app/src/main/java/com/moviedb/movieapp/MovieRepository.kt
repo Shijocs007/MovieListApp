@@ -6,7 +6,6 @@ import com.moviedb.movieapp.network.MovieApi
 import com.moviedb.movieapp.network.SafeApiRequest
 import com.moviedb.movieapp.network.model.MovieResult
 import com.moviedb.movieapp.room.MovieDatabase
-import com.moviedb.movieapp.test.TestResp
 
 class MovieRepository
 constructor(
