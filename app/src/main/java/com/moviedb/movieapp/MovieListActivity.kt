@@ -16,6 +16,6 @@ class MovieListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.setTestData()
+        viewModel.getMovieList()
     }
 }
