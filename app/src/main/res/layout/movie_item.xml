@@ -19,6 +19,7 @@
                 android:layout_height="match_parent"
                 android:foreground="@color/overlay_dark_10"
                 android:scaleType="centerCrop"
+                android:transitionName="imageMain"
                 android:src="@drawable/background_image" />
 
             <LinearLayout
@@ -36,12 +37,18 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:maxLines="1"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:shadowColor="#000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.2"
+                    android:textColor="#FFFFFF"
+                    android:layout_margin="0dp"
+                    android:padding="0dp"
                     android:singleLine="true"
-                    android:text="Item Name"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white" />
+                   />
 
                 <View
                     android:layout_width="@dimen/spacing_large"
@@ -51,9 +58,17 @@
                     android:id="@+id/release_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="172"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="@android:color/white" />
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="2"
+                    android:shadowColor="#000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.2"
+                    android:textColor="#FFFFFF"
+                    android:layout_margin="0dp"
+                    android:padding="0dp"
+                    android:singleLine="true" />
 
             </LinearLayout>
 

@@ -1,10 +1,12 @@
 package com.moviedb.movieapp
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import com.moviedb.movieapp.models.Movie
 import com.moviedb.movieapp.network.NetworkState
 import kotlinx.android.synthetic.main.movie_item.view.*
 import kotlinx.android.synthetic.main.network_loading_item.view.*
+
 
 class MoviePagedListAdapter (val context: Context) : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
 
@@ -84,12 +87,14 @@ class MoviePagedListAdapter (val context: Context) : PagedListAdapter<Movie, Rec
                 .into(itemView.movie_poster);
 
             itemView.item_layout.setOnClickListener{
+                val activityOptionsCompat: ActivityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, itemView.movie_poster, "imageMain")
                 val intent = Intent(context, MovieDetailsActivity::class.java)
                 intent.putExtra("poster", moviePosterURL)
                 intent.putExtra("title", movie?.title)
                 intent.putExtra("release_date", movie?.release_date)
                 intent.putExtra("overview", movie?.overview)
-                context.startActivity(intent)
+                context.startActivity(intent, activityOptionsCompat.toBundle())
             }
         }
     }
