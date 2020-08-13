@@ -12,6 +12,6 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertAll(movies : List<Movie>)
 
-    @Query("SELECT * FROM movie")
-    suspend fun getMovies() : List<Movie>
+    @Query("SELECT * FROM movie LIMIT :limit OFFSET :offset")
+    suspend fun getMovies(limit : Int, offset : Int) : List<Movie>
 }

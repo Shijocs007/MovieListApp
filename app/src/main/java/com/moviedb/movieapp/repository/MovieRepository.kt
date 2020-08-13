@@ -44,7 +44,7 @@ constructor(
             moviesDataSourceFactory.moviesLiveDataSource, MovieDataSource::networkState)
     }
 
-    suspend fun getMoviesFromDb() = db.movieDao().getMovies()
+    suspend fun getMoviesFromDb(offset : Int) = db.movieDao().getMovies(POST_PER_PAGE,offset)
 
     suspend fun saveMoviesToDB(movies: List<Movie>) = db.movieDao().upsertAll(movies)
 }

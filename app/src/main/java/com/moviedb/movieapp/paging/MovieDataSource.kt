@@ -35,7 +35,7 @@ class MovieDataSource(private val repository: MovieRepository) : PageKeyedDataSo
             } catch ( e : ApiException) {
                 networkState.postValue(NetworkState.ERROR)
             } catch (e : NoInternetException) {
-                val result = repository.getMoviesFromDb()
+                val result = repository.getMoviesFromDb(0) // for initial loading, the offset will be 0
                 if(result.isNullOrEmpty()) {
                     networkState.postValue(NetworkState.NO_INTERNET)
                 } else {
@@ -65,7 +65,8 @@ class MovieDataSource(private val repository: MovieRepository) : PageKeyedDataSo
             } catch ( e : ApiException) {
                 networkState.postValue(NetworkState.ERROR)
             } catch (e : NoInternetException) {
-                val result = repository.getMoviesFromDb()
+                val offset = params.key * POST_PER_PAGE
+                val result = repository.getMoviesFromDb(offset)
                 if(result.isNullOrEmpty()) {
                     networkState.postValue(NetworkState.NO_INTERNET)
                 } else {
