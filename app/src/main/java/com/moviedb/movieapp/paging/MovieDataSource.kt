@@ -1,18 +1,18 @@
-package com.moviedb.movieapp
+package com.moviedb.movieapp.paging
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.moviedb.movieapp.models.Movie
 import com.moviedb.movieapp.network.Coroutines
-import com.moviedb.movieapp.network.MovieApi
 import com.moviedb.movieapp.network.NetworkState
+import com.moviedb.movieapp.repository.MovieRepository
 import com.moviedb.movieapp.utils.ApiException
 import com.moviedb.movieapp.utils.NoInternetException
 
 const val FIRST_PAGE = 1
 const val POST_PER_PAGE = 20
 
-class MovieDataSource(private val api : MovieApi) : PageKeyedDataSource<Int, Movie>() {
+class MovieDataSource(private val repository: MovieRepository) : PageKeyedDataSource<Int, Movie>() {
 
     private var page = 1
     val networkState: MutableLiveData<NetworkState> = MutableLiveData()
@@ -22,17 +22,25 @@ class MovieDataSource(private val api : MovieApi) : PageKeyedDataSource<Int, Mov
 
         Coroutines.main {
             try {
-                val result = api.getMovies(page)
-                if(result.isSuccessful) {
-                    result.body()?.movies?.let { callback.onResult(it, null, page+1) }
-                    networkState.postValue(NetworkState.LOADED)
-                } else{
+                val result = repository.getMoviesFromCloud()
+                if(result?.movies.isNullOrEmpty()) {
                     networkState.postValue(NetworkState.ERROR)
+                } else{
+                    result.movies?.let {
+                        callback.onResult(it, null, page+1)
+                        repository.saveMoviesToDB(it)
+                    }
+                    networkState.postValue(NetworkState.LOADED)
                 }
             } catch ( e : ApiException) {
                 networkState.postValue(NetworkState.ERROR)
             } catch (e : NoInternetException) {
-               // val result = repository.getMoviesFromDb()
+                val result = repository.getMoviesFromDb()
+                result?.let {
+                    callback.onResult(it, null, page+1)
+                    networkState.postValue(NetworkState.LOADED)
+                    return@main
+                }
                 networkState.postValue(NetworkState.ERROR)
             }
         }
@@ -44,21 +52,25 @@ class MovieDataSource(private val api : MovieApi) : PageKeyedDataSource<Int, Mov
 
         Coroutines.main {
             try {
-                val result = api.getMovies(page)
-                if(result.isSuccessful) {
-                    if(result.body()?.total_pages!! >= params.key) {
-                        result.body()?.movies?.let { callback.onResult(it, params.key+1) }
-                        networkState.postValue(NetworkState.LOADED)
-                    } else {
-                        networkState.postValue(NetworkState.ENDOFLIST)
-                    }
-                } else{
+                val result = repository.getMoviesFromCloud()
+                if(result?.movies.isNullOrEmpty()) {
                     networkState.postValue(NetworkState.ERROR)
+                } else{
+                    result.movies?.let {
+                        callback.onResult(it, params.key+1)
+                        repository.saveMoviesToDB(it)
+                    }
+                    networkState.postValue(NetworkState.LOADED)
                 }
             } catch ( e : ApiException) {
                 networkState.postValue(NetworkState.ERROR)
             } catch (e : NoInternetException) {
-                // val result = repository.getMoviesFromDb()
+                val result = repository.getMoviesFromDb()
+                result?.let {
+                    callback.onResult(it, params.key+1)
+                    networkState.postValue(NetworkState.LOADED)
+                    return@main
+                }
                 networkState.postValue(NetworkState.ERROR)
             }
         }

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.moviedb.movieapp.MovieViewModel" />
+            type="com.moviedb.movieapp.viewmodels.MovieViewModel" />
     </data>
 
     <LinearLayout

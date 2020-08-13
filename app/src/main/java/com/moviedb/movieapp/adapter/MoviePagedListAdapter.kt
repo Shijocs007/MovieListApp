@@ -1,4 +1,4 @@
-package com.moviedb.movieapp
+package com.moviedb.movieapp.adapter
 
 import android.app.Activity
 import android.content.Context
@@ -11,6 +11,8 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.moviedb.movieapp.ui.MovieDetailsActivity
+import com.moviedb.movieapp.R
 import com.moviedb.movieapp.di.NetworkModule.POSTER_BASE_URL
 import com.moviedb.movieapp.models.Movie
 import com.moviedb.movieapp.network.NetworkState
@@ -18,7 +20,9 @@ import kotlinx.android.synthetic.main.movie_item.view.*
 import kotlinx.android.synthetic.main.network_loading_item.view.*
 
 
-class MoviePagedListAdapter (val context: Context) : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MovieDiffCallback()) {
+class MoviePagedListAdapter (val context: Context) : PagedListAdapter<Movie, RecyclerView.ViewHolder>(
+    MovieDiffCallback()
+) {
 
     val MOVIE_VIEW_TYPE = 1
     val NETWORK_VIEW_TYPE = 2
@@ -43,10 +47,14 @@ class MoviePagedListAdapter (val context: Context) : PagedListAdapter<Movie, Rec
 
         if (viewType == MOVIE_VIEW_TYPE) {
             view = layoutInflater.inflate(R.layout.movie_item, parent, false)
-            return MovieItemViewHolder(view)
+            return MovieItemViewHolder(
+                view
+            )
         } else {
             view = layoutInflater.inflate(R.layout.network_loading_item, parent, false)
-            return NetworkStateItemViewHolder(view)
+            return NetworkStateItemViewHolder(
+                view
+            )
         }
     }
 

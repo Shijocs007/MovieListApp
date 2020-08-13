@@ -1,4 +1,4 @@
-package com.moviedb.movieapp
+package com.moviedb.movieapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
@@ -7,11 +7,15 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.moviedb.movieapp.viewmodels.MovieViewModel
+import com.moviedb.movieapp.R
+import com.moviedb.movieapp.adapter.MoviePagedListAdapter
 import com.moviedb.movieapp.databinding.ActivityMovieListBinding
 import com.moviedb.movieapp.network.NetworkState
 import com.moviedb.movieapp.utils.SpacingItemDecoration
 import com.moviedb.movieapp.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MovieListActivity : AppCompatActivity() {
@@ -21,14 +25,17 @@ class MovieListActivity : AppCompatActivity() {
     private val viewModel : MovieViewModel by viewModels()
     lateinit var binding : ActivityMovieListBinding
 
+    @Inject
+    lateinit var movieAdapter : MoviePagedListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_list)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_movie_list
+        )
         binding.viewmodel = viewModel
-       // viewModel.getMovieList()
 
 
-        val movieAdapter = MoviePagedListAdapter(this)
         val gridLayoutManager = GridLayoutManager(this, 3)
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -51,7 +58,6 @@ class MovieListActivity : AppCompatActivity() {
         binding.recyclerView.adapter = movieAdapter
 
         viewModel.moviePagedList.observe(this, Observer {
-            val test = it
             movieAdapter.submitList(it)
         })
 
@@ -62,19 +68,6 @@ class MovieListActivity : AppCompatActivity() {
             if (!viewModel.listIsEmpty()) {
                 movieAdapter.setNetworkState(it)
             }
-        })
-
-        registerObservers()
-    }
-
-    private fun registerObservers() {
-
-        viewModel.getMoviesLivedata().observe(this, Observer {
-
-        })
-
-        viewModel.getErrorLivedata().observe(this, Observer {
-
         })
     }
 

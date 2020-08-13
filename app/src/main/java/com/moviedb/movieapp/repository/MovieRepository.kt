@@ -1,10 +1,12 @@
-package com.moviedb.movieapp
+package com.moviedb.movieapp.repository
 
-import android.telecom.Call
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.moviedb.movieapp.paging.MovieDataSource
+import com.moviedb.movieapp.paging.MovieDataSourceFactory
+import com.moviedb.movieapp.paging.POST_PER_PAGE
 import com.moviedb.movieapp.models.Movie
 import com.moviedb.movieapp.network.MovieApi
 import com.moviedb.movieapp.network.NetworkState
@@ -26,7 +28,8 @@ constructor(
     }
 
     fun fetchMovieList() : LiveData<PagedList<Movie>> {
-        moviesDataSourceFactory = MovieDataSourceFactory(api)
+        moviesDataSourceFactory =
+            MovieDataSourceFactory(this)
 
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
