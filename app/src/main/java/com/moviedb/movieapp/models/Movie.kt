@@ -5,6 +5,10 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+/**
+ * class used as retrofit http response for movie and,
+ * entity for room database
+ * */
 @Entity
 data class Movie(
     @Expose @SerializedName("popularity") val popularity : Double?,

@@ -13,6 +13,13 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 object RepositoryModule {
 
+    /**
+     * provide movie repository class
+     *
+     * @param api MovieApi instance where we written all api requests
+     * @param movieDatabase to get the data form local db
+     * @return repository module
+     * */
     @Singleton
     @Provides
     fun provideMovieRepository(api: MovieApi, movieDatabase: MovieDatabase) : MovieRepository {

@@ -12,6 +12,12 @@ import dagger.hilt.android.qualifiers.ActivityContext
 @InstallIn(ActivityComponent::class)
 object MovieListActivityModule {
 
+    /**
+     * this method provide the adapter for recyclerview in the activity  scope
+     *
+     * @param context activty context
+     * @return the pagedlistadapter for the recyclerview in the activity
+     * */
     @Provides
     fun providePagedListAdapter(@ActivityContext context: Context)  : MoviePagedListAdapter {
         return MoviePagedListAdapter(context)

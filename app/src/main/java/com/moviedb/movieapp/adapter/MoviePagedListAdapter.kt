@@ -40,7 +40,11 @@ class MoviePagedListAdapter (val context: Context) : PagedListAdapter<Movie, Rec
         }
 
     }
-
+    /**
+     * contains two viewholder
+     * 1st for holding movie item
+     * 2nd for showing progressbar or error message on loading next page
+     * */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view: View

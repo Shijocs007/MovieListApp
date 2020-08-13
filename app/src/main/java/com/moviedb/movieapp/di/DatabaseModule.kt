@@ -15,6 +15,12 @@ import javax.inject.Singleton
 @Module
 object DatabaseModule {
 
+    /**
+     *this method provide MovieDatabase instance in application scope
+     *
+     * @param context  ApplicationContext
+     * @return  the database instance of the application, MovieDatabase
+     **/
     @Singleton
     @Provides
     fun provideMovieDb(@ApplicationContext context: Context) : MovieDatabase {
@@ -27,6 +33,12 @@ object DatabaseModule {
             .build()
     }
 
+    /**
+     * this method provides the DAO instance of room database
+     *
+     * @param movieDatabase room database instance
+     * @return the instance of MovieDao
+     * */
     @Singleton
     @Provides
     fun provideMovieDAO(movieDatabase: MovieDatabase): MovieDao {

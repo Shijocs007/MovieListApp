@@ -6,6 +6,11 @@ import org.json.JSONObject
 import retrofit2.Response
 import java.lang.StringBuilder
 
+/**
+ * class used for making safe api calls
+ * @returns the body if the response is success
+ * @throws ApiException if any error occure
+ * */
 abstract class SafeApiRequest {
 
     suspend fun <T : Any> apiRequest(call : suspend() -> Response<T>) : T{

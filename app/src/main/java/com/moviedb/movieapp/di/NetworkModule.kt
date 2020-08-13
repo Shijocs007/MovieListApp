@@ -21,6 +21,11 @@ object NetworkModule {
 
     const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
 
+    /**
+     * provides Gson for retrofit
+     *
+     * @return Gson for retrofit converter factory
+     * */
     @Singleton
     @Provides
     fun provideGsonBuilder(): Gson {
@@ -29,12 +34,24 @@ object NetworkModule {
             .create()
     }
 
+    /**
+     * provide network interceptor for connection debugging
+     *
+     * @param context applicationContext
+     * @return
+     * */
     @Singleton
     @Provides
     fun provideNetworkInterceptor(@ApplicationContext context: Context) : NetworkConnectionIntercepter {
         return NetworkConnectionIntercepter(context)
     }
 
+    /**
+     * provide okhttp client for retrofit
+     *
+     * @param networkConnectionIntercepter http interceptor
+     * @return OkHttpClient
+     * */
     @Singleton
     @Provides
     fun provideOkhttp(networkConnectionIntercepter: NetworkConnectionIntercepter) : OkHttpClient {
@@ -43,6 +60,13 @@ object NetworkModule {
             .build()
     }
 
+    /**
+     * provide retrofit builder
+     *
+     * @param gson for json to object convert
+     * @param okHttpClient
+     * @return retrofit instance
+     * */
     @Singleton
     @Provides
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit.Builder {

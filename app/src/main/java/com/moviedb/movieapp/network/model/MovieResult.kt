@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.moviedb.movieapp.models.Movie
 
-
+/**
+ * this class is the response object of popular movie list retrofit call
+ * */
 data class MovieResult(
     @Expose @SerializedName("results") val movies : List<Movie>,
     @Expose @SerializedName("page") val page : Int,
