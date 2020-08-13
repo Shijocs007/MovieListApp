@@ -7,8 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.moviedb.movieapp.models.Movie
 import com.moviedb.movieapp.network.Coroutines
+import com.moviedb.movieapp.network.NetworkState
 import com.moviedb.movieapp.utils.ApiException
 import com.moviedb.movieapp.utils.NoInternetException
 
@@ -50,5 +52,17 @@ constructor(
 
     fun getErrorLivedata() : LiveData<String> {
         return errorLivedata
+    }
+
+    val  moviePagedList : LiveData<PagedList<Movie>> by lazy {
+        repository.fetchMovieList()
+    }
+
+    val  networkState : LiveData<NetworkState> by lazy {
+        repository.getNetworkState()
+    }
+
+    fun listIsEmpty(): Boolean {
+        return moviePagedList.value?.isEmpty() ?: true
     }
 }
