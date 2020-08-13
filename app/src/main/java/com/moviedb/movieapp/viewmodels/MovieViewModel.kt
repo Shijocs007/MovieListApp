@@ -26,6 +26,7 @@ constructor(
     }
 
     fun listIsEmpty(): Boolean {
-        return moviePagedList.value?.isEmpty() ?: true
+        val test = moviePagedList.value
+        return moviePagedList.value?.isNullOrEmpty() ?: true
     }
 }

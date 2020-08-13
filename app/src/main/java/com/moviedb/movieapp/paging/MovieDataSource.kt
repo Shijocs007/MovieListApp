@@ -22,7 +22,7 @@ class MovieDataSource(private val repository: MovieRepository) : PageKeyedDataSo
 
         Coroutines.main {
             try {
-                val result = repository.getMoviesFromCloud()
+                val result = repository.getMoviesFromCloud(page)
                 if(result?.movies.isNullOrEmpty()) {
                     networkState.postValue(NetworkState.ERROR)
                 } else{
@@ -36,12 +36,12 @@ class MovieDataSource(private val repository: MovieRepository) : PageKeyedDataSo
                 networkState.postValue(NetworkState.ERROR)
             } catch (e : NoInternetException) {
                 val result = repository.getMoviesFromDb()
-                result?.let {
-                    callback.onResult(it, null, page+1)
+                if(result.isNullOrEmpty()) {
+                    networkState.postValue(NetworkState.NO_INTERNET)
+                } else {
+                    callback.onResult(result,null,  page + 1)
                     networkState.postValue(NetworkState.LOADED)
-                    return@main
                 }
-                networkState.postValue(NetworkState.ERROR)
             }
         }
     }
@@ -52,7 +52,7 @@ class MovieDataSource(private val repository: MovieRepository) : PageKeyedDataSo
 
         Coroutines.main {
             try {
-                val result = repository.getMoviesFromCloud()
+                val result = repository.getMoviesFromCloud(params.key)
                 if(result?.movies.isNullOrEmpty()) {
                     networkState.postValue(NetworkState.ERROR)
                 } else{
@@ -66,12 +66,12 @@ class MovieDataSource(private val repository: MovieRepository) : PageKeyedDataSo
                 networkState.postValue(NetworkState.ERROR)
             } catch (e : NoInternetException) {
                 val result = repository.getMoviesFromDb()
-                result?.let {
-                    callback.onResult(it, params.key+1)
+                if(result.isNullOrEmpty()) {
+                    networkState.postValue(NetworkState.NO_INTERNET)
+                } else {
+                    callback.onResult(result, params.key+1)
                     networkState.postValue(NetworkState.LOADED)
-                    return@main
                 }
-                networkState.postValue(NetworkState.ERROR)
             }
         }
     }

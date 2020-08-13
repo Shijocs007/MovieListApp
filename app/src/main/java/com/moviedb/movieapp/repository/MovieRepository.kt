@@ -23,8 +23,8 @@ constructor(
     lateinit var moviePagedList: LiveData<PagedList<Movie>>
     lateinit var moviesDataSourceFactory: MovieDataSourceFactory
 
-    suspend fun getMoviesFromCloud() : MovieResult{
-        return apiRequest { api.getMovies(1) }
+    suspend fun getMoviesFromCloud(page : Int) : MovieResult{
+        return apiRequest { api.getMovies(page) }
     }
 
     fun fetchMovieList() : LiveData<PagedList<Movie>> {

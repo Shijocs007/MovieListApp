@@ -8,6 +8,7 @@ class NetworkState( val msg: String) {
         val LOADING: NetworkState
         val ERROR: NetworkState
         val ENDOFLIST: NetworkState
+        val NO_INTERNET : NetworkState
 
         init {
             LOADED = NetworkState("Success")
@@ -17,6 +18,8 @@ class NetworkState( val msg: String) {
             ERROR = NetworkState( "Something went wrong")
 
             ENDOFLIST = NetworkState( "You have reached the end")
+
+            NO_INTERNET = NetworkState("No Internet!!Please check")
         }
     }
 }

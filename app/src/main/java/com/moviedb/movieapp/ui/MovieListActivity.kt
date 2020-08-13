@@ -58,12 +58,13 @@ class MovieListActivity : AppCompatActivity() {
         binding.recyclerView.adapter = movieAdapter
 
         viewModel.moviePagedList.observe(this, Observer {
+            val test = it
             movieAdapter.submitList(it)
         })
 
         viewModel.networkState.observe(this, Observer {
             binding.mainProgressBar.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
-            binding.errorMessage.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
+            binding.errorMessage.visibility = if (viewModel.listIsEmpty() && (it == NetworkState.ERROR || it ==NetworkState.NO_INTERNET)) View.VISIBLE else View.GONE
 
             if (!viewModel.listIsEmpty()) {
                 movieAdapter.setNetworkState(it)
