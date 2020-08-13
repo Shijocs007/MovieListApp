@@ -1,7 +1,18 @@
 package com.moviedb.movieapp.utils
 
-import java.io.IOException
+import android.content.Context
+import android.util.TypedValue
 
-class ApiException(message : String) : IOException(message)
+object Utils {
 
-class NoInternetException(message: String) : IOException(message)
+    fun dpToPx(c: Context, dp: Int): Int {
+        val r = c.resources
+        return Math.round(
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp.toFloat(),
+                r.displayMetrics
+            )
+        )
+    }
+}

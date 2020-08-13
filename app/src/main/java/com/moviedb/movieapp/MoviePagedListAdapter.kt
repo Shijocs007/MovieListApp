@@ -9,6 +9,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.moviedb.movieapp.di.NetworkModule.POSTER_BASE_URL
 import com.moviedb.movieapp.models.Movie
 import com.moviedb.movieapp.network.NetworkState
 import kotlinx.android.synthetic.main.movie_item.view.*
@@ -18,6 +19,7 @@ class MoviePagedListAdapter (val context: Context) : PagedListAdapter<Movie, Rec
 
     val MOVIE_VIEW_TYPE = 1
     val NETWORK_VIEW_TYPE = 2
+
 
     private var networkState: NetworkState? = null
 
@@ -75,16 +77,19 @@ class MoviePagedListAdapter (val context: Context) : PagedListAdapter<Movie, Rec
         fun bind(movie: Movie?, context: Context) {
             itemView.title.text = movie?.title
             itemView.release_date.text = movie?.release_date
-            //val moviePosterURL = POSTER_BASE_URL + movie?.posterPath
+            val moviePosterURL = POSTER_BASE_URL + movie?.poster_path
 
             Glide.with(itemView.context)
-                .load(movie?.poster_path)
+                .load(moviePosterURL)
                 .into(itemView.movie_poster);
 
-            itemView.setOnClickListener{
-//                val intent = Intent(context, SingleMovie::class.java)
-//                intent.putExtra("id", movie?.id)
-//                context.startActivity(intent)
+            itemView.item_layout.setOnClickListener{
+                val intent = Intent(context, MovieDetailsActivity::class.java)
+                intent.putExtra("poster", moviePosterURL)
+                intent.putExtra("title", movie?.title)
+                intent.putExtra("release_date", movie?.release_date)
+                intent.putExtra("overview", movie?.overview)
+                context.startActivity(intent)
             }
         }
     }

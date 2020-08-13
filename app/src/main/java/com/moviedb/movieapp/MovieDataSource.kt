@@ -14,7 +14,7 @@ const val POST_PER_PAGE = 20
 
 class MovieDataSource(private val api : MovieApi) : PageKeyedDataSource<Int, Movie>() {
 
-    private var page = 0
+    private var page = 1
     val networkState: MutableLiveData<NetworkState> = MutableLiveData()
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {

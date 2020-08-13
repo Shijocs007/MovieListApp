@@ -19,6 +19,8 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
 
+    const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
+
     @Singleton
     @Provides
     fun provideGsonBuilder(): Gson {
